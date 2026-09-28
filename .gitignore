@@ -1,6 +1,7 @@
-.DS_Store
-Thumbs.db
-*.log
-*.tmp
 .idea/
 .vscode/
+.DS_Store
+__MACOSX/
+*.class
+*.log
+metadata.yml
