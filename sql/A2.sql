@@ -1,3 +1,6 @@
-SELECT volunteer_id, first_name, last_name
-FROM volunteer
-ORDER BY volunteer_id;
+SELECT p.Id,
+       COUNT(c.Id) AS NumComments
+FROM Post p
+LEFT JOIN Comment c
+       ON c.PostId = p.Id
+GROUP BY p.Id;
