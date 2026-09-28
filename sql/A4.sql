@@ -1,3 +1,4 @@
-SELECT shift_ref, role_code, starts_at, ends_at
-FROM shift
-ORDER BY starts_at;
+SELECT pr.PostId, COUNT(DISTINCT pr.Username) AS NumUsersReacted
+FROM PostReaction pr
+GROUP BY pr.PostId
+HAVING SUM(pr.ReactionType = 'Heart') >= 3;
