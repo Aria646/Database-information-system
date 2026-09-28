@@ -1,3 +1,9 @@
-SELECT signup_ref, volunteer_id, shift_ref, status
-FROM signup
-ORDER BY signup_ref;
+SELECT Username
+FROM Post
+GROUP BY Username
+HAVING COUNT(*) >= ALL (
+  SELECT COUNT(*)
+  FROM Post
+  GROUP BY Username
+)
+ORDER BY Username;
