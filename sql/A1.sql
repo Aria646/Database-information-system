@@ -1,2 +1,3 @@
-SELECT *
-FROM volunteer;
+SELECT Id
+FROM Comment
+ORDER BY Id DESC;
