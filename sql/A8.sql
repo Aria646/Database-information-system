@@ -1,8 +1,16 @@
-SELECT v.volunteer_id,
-       v.first_name,
-       v.last_name,
-       COUNT(su.signup_ref) AS signup_count
-FROM volunteer v
-LEFT JOIN signup su ON su.volunteer_id = v.volunteer_id
-GROUP BY v.volunteer_id, v.first_name, v.last_name
-ORDER BY signup_count DESC, v.volunteer_id;
+SELECT f.UserFollowing AS Username
+FROM UserFollows f
+WHERE f.UserBeingFollowed = 'Allan'
+  AND NOT EXISTS (
+    SELECT 1
+    FROM PostReaction pr
+    WHERE pr.PostId = (
+            SELECT p.Id
+            FROM Post p
+            WHERE p.Username = 'Allan'
+            ORDER BY p.CreationDateTime DESC, p.Id DESC
+            LIMIT 1
+          )
+      AND pr.Username = f.UserFollowing
+  )
+ORDER BY f.UserFollowing;
