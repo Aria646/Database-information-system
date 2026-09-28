@@ -1,4 +1,3 @@
-SELECT volunteer_id,
-       attended_credit_total(volunteer_id) AS calculated_credits
-FROM volunteer
-ORDER BY volunteer_id;
+ALTER TABLE `User` ADD COLUMN dob DATE;
+UPDATE User SET dob = '1970-01-01' WHERE dob IS NULL;
+ALTER TABLE `User` MODIFY COLUMN dob DATE NOT NULL;

@@ -1,11 +1,25 @@
-SELECT v.volunteer_id,
-       v.first_name,
-       v.last_name,
-       SUM(r.credits_perhour * EXTRACT(EPOCH FROM (s.ends_at - s.starts_at)) / 3600) AS earned_credits
-FROM volunteer v
-JOIN signup su ON su.volunteer_id = v.volunteer_id
-JOIN shift s ON s.shift_ref = su.shift_ref
-JOIN role r ON r.role_code = s.role_code
-WHERE su.status = 'Attended'
-GROUP BY v.volunteer_id, v.first_name, v.last_name
-ORDER BY earned_credits DESC, v.volunteer_id;
+WITH Popular AS (
+  SELECT pr.PostId
+  FROM PostReaction pr
+  WHERE pr.ReactionType = 'Heart'
+  GROUP BY pr.PostId
+  HAVING COUNT(DISTINCT pr.Username) >= 3
+),
+Famous AS (
+  SELECT uf.UserBeingFollowed AS Username
+  FROM UserFollows uf
+  GROUP BY uf.UserBeingFollowed
+  HAVING COUNT(*) >= 2
+),
+HeartCount AS (
+  SELECT PostId, COUNT(DISTINCT Username) AS Hearts
+  FROM PostReaction
+  WHERE ReactionType = 'Heart'
+  GROUP BY PostId
+)
+SELECT p.Username, p.Id AS PostId, hc.Hearts
+FROM Post p
+JOIN Popular pop ON pop.PostId = p.Id
+JOIN Famous f ON f.Username = p.Username
+JOIN HeartCount hc ON hc.PostId = p.Id
+ORDER BY p.Username, p.Id;

@@ -1,8 +1,24 @@
-SELECT r.role_code,
-       r.role_name,
-       COUNT(s.shift_ref) AS shift_count
-FROM role r
-LEFT JOIN shift s ON s.role_code = r.role_code
-GROUP BY r.role_code, r.role_name
-HAVING COUNT(s.shift_ref) > 0
-ORDER BY shift_count DESC, r.role_code;
+CREATE OR REPLACE VIEW AllanFollowReact AS
+SELECT DISTINCT UserFollowing AS u
+FROM UserFollows
+WHERE UserBeingFollowed = 'Allan'
+UNION ALL
+SELECT DISTINCT pr.Username AS u
+FROM PostReaction pr
+JOIN Post p ON p.Id = pr.PostId
+WHERE p.Username = 'Allan';
+
+SELECT COUNT(*) AS NumStalkers
+FROM (
+  SELECT u
+  FROM AllanFollowReact
+  GROUP BY u
+  HAVING COUNT(*) = 2
+) fr
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM Comment c
+  JOIN Post p2 ON p2.Id = c.PostId
+  WHERE p2.Username = 'Allan'
+    AND c.Username = fr.u
+);

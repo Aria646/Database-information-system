@@ -1,11 +1,18 @@
-CREATE FUNCTION attended_credit_total(p_volunteer_id integer)
-RETURNS numeric
-LANGUAGE sql
-AS $$
-    SELECT COALESCE(SUM(r.credits_perhour * EXTRACT(EPOCH FROM (s.ends_at - s.starts_at)) / 3600), 0)
-    FROM signup su
-    JOIN shift s ON s.shift_ref = su.shift_ref
-    JOIN role r ON r.role_code = s.role_code
-    WHERE su.volunteer_id = p_volunteer_id
-      AND su.status = 'Attended';
-$$;
+DROP TABLE IF EXISTS Message;
+
+CREATE TABLE Message (
+  Id            INT          NOT NULL,
+  Sender        VARCHAR(255) NOT NULL,
+  Receiver      VARCHAR(255) NOT NULL,
+  Message       VARCHAR(512) NOT NULL,
+  IntegrityHash CHAR(64)     NOT NULL,
+  PRIMARY KEY (Id),
+  UNIQUE KEY uni_message_hash (IntegrityHash),
+  KEY idx_msg_sender (Sender),
+  KEY idx_msg_receiver (Receiver),
+  CONSTRAINT fk_message_sender
+    FOREIGN KEY (Sender)   REFERENCES User(Username),
+  CONSTRAINT fk_message_receiver
+    FOREIGN KEY (Receiver) REFERENCES User(Username),
+  CONSTRAINT chk_sender_receiver_diff CHECK (Sender <> Receiver)
+);
