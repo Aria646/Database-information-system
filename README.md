@@ -1,24 +1,15 @@
-# Database Information System
+# Database Information System — SQL Project
 
-A SQL-based database project demonstrating relational data modelling, query design, data manipulation, and information system development.
+A relational-database project demonstrating SQL querying and database programming across a set of progressively more complex tasks.
 
-## Overview
-
-This portfolio project contains a series of SQL tasks covering relational database operations, query construction, joins, aggregation, subqueries, views, and data manipulation. The project demonstrates practical use of SQL for information-system development and structured data processing.
+## Highlights
+- Data retrieval and filtering
+- Multi-table query logic
+- Aggregation and analytical SQL
+- Database manipulation/programming tasks organised as separate SQL scripts
 
 ## Technologies
+SQL, relational databases, query design
 
-- SQL
-- Relational databases
-- Data querying and manipulation
-- Information-system development
-
-## Project Structure
-
-- `sql/` — SQL scripts organised by task
-- `README.md` — project overview and portfolio documentation
-- `.gitignore` — repository ignore rules
-
-## Portfolio Note
-
-This repository is a cleaned portfolio version prepared for technical review. Course administration files and unrelated submission materials have been excluded.
+## Repository note
+This public portfolio contains my submitted SQL scripts only. The course assignment specification, metadata and other assessment materials are intentionally excluded.
